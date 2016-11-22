@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Dokument bez tytułu</title>
+
+   
+
+</head>
+
+
+
+    <body onload="start()"></body>
+ <script type="text/javascript">
+    var socket;
+    function start() {
+        var host = "ws://127.0.0.1:9000/"; // nasz adres serwera
+        socket = new WebSocket(host);
+        // zaraz po nawiązaniu połączenia wysyłamy wiadomość
+        socket.onopen = function(msg) {
+            console.log("Connected, status "+this.readyState);
+            socket.send("My message to the server");
+        };
+        // po otrzymaniu wiadomości można zamknąć połączenie
+        socket.onmessage = function(msg) {
+            console.log("Received: "+msg.data);
+            socket.close();
+        };
+        // logujemy zamknięcie połączenia
+        socket.onclose   = function(msg) {
+            console.log("Disconnected, status "+this.readyState);
+        };
+    }
+    </script>
+</html>
